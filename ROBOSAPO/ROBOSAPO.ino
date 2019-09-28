@@ -17,13 +17,16 @@
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
 
+#define PWM_A 25
+#define PWM_B 16
+
 void setup() {
   Serial.begin(9600);
   InicializarMotores();
 }
 
 void loop() {
-  AceleracaoDiferencial(19, 15);
+  AceleracaoDiferencial(PWM_A, PWM_B);
 }
 
 void Espera(float segundos) {
