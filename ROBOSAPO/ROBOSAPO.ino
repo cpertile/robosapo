@@ -16,7 +16,6 @@
 #define ACELERACAO 20
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
-
 #define PWM_A 25
 #define PWM_B 16
 
