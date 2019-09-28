@@ -1,3 +1,27 @@
+
+
+void InicializarMotores() {
+  Serial.println("Inicializando Motor A...");
+  pinMode(PINO_PWM_MOTOR_A, OUTPUT);
+  pinMode(PINO_MOTOR_A1, OUTPUT);
+  pinMode(PINO_MOTOR_A2, OUTPUT);
+
+  // Inicializando Motor A em 0% no sentido necessário
+  analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
+  digitalWrite(PINO_MOTOR_A1, LOW);
+  digitalWrite(PINO_MOTOR_A2, HIGH);
+ 
+  Serial.println("Inicializando Motor B...");
+  pinMode(PINO_PWM_MOTOR_B, OUTPUT);
+  pinMode(PINO_MOTOR_B1, OUTPUT);
+  pinMode(PINO_MOTOR_B2, OUTPUT);
+
+  // Inicializando Motor B em 0% no sentido necessário
+  analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
+  digitalWrite(PINO_MOTOR_B1, HIGH);
+  digitalWrite(PINO_MOTOR_B2, LOW);
+}
+
 void PararMotores() {
   Serial.println("Parando motores...");
   analogWrite(PINO_PWM_MOTOR_A, 0);
@@ -31,12 +55,12 @@ void AceleracaoConjuntaGradual(int espera) {
 
 void AceleracaoDiferencial(int pwm_a, int pwm_b) {
   int pwm_a_convertido = map(pwm_a, 0, 100, PWM_MINIMO, PWM_MAXIMO);
-  int pwm_b_convertido = map(pwm_a, 0, 100, PWM_MINIMO, PWM_MAXIMO);
+  int pwm_b_convertido = map(pwm_b, 0, 100, PWM_MINIMO, PWM_MAXIMO);
   
   String mensagemA = "Acelerando Motor A: " + String(pwm_a_convertido) + " PWM";
   String mensagemB = "Acelerando Motor B: " + String(pwm_b_convertido) + " PWM";
   Serial.println(mensagemA);
   Serial.println(mensagemB);
-  analogWrite(PINO_PWM_MOTOR_A, pwm_convertido);
-  analogWrite(PINO_PWM_MOTOR_B, pwm_convertido);
+  analogWrite(PINO_PWM_MOTOR_A, pwm_a_convertido);
+  analogWrite(PINO_PWM_MOTOR_B, pwm_b_convertido);
 }

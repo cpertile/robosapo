@@ -16,40 +16,14 @@
 #define ACELERACAO 20
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
- 
+
 void setup() {
   Serial.begin(9600);
-  
-  Serial.println("Inicializando Motor A...");
-  pinMode(PINO_PWM_MOTOR_A, OUTPUT);
-  pinMode(PINO_MOTOR_A1, OUTPUT);
-  pinMode(PINO_MOTOR_A2, OUTPUT);
-
-  // Inicializando Motor A em 0% no sentido necessário
-  analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
-  digitalWrite(PINO_MOTOR_A1, LOW);
-  digitalWrite(PINO_MOTOR_A2, HIGH);
- 
-  Serial.println("Inicializando Motor B...");
-  pinMode(PINO_PWM_MOTOR_B, OUTPUT);
-  pinMode(PINO_MOTOR_B1, OUTPUT);
-  pinMode(PINO_MOTOR_B2, OUTPUT);
-
-  // Inicializando Motor B em 0% no sentido necessário
-  analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
-  digitalWrite(PINO_MOTOR_B1, HIGH);
-  digitalWrite(PINO_MOTOR_B2, LOW);
+  InicializarMotores();
 }
 
 void loop() {
-//  AcelerarMotores(ACELERACAO);
-//  Espera(1);
-//  PararMotores();
-//  Espera(0.5);
-
-  AcelerarGradualmente(2);
-
-//  AcelerarTotal();
+  AceleracaoDiferencial(19, 15);
 }
 
 void Espera(float segundos) {
