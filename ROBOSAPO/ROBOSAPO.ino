@@ -26,6 +26,11 @@ void setup() {
 
 void loop() {
   AceleracaoDiferencial(PWM_A, PWM_B);
+  Espera(2);
+  CurvaEsquerda();
+  Espera(2);
+  CurvaDireita();
+  Espera(2);
 }
 
 void Espera(float segundos) {
