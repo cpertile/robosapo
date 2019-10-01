@@ -66,7 +66,7 @@ void AceleracaoDiferencial(int pwm_a, int pwm_b) {
 
 void CurvaEsquerda() {
   int pwm_a = 20;
-  int pwm_b = 16;
+  int pwm_b = 18;
 
   int pwm_a_convertido = map(pwm_a, 0, 100, PWM_MINIMO, PWM_MAXIMO);
   int pwm_b_convertido = map(pwm_b, 0, 100, PWM_MINIMO, PWM_MAXIMO);
@@ -83,7 +83,7 @@ void CurvaEsquerda() {
 
 void CurvaDireita() {
   int pwm_a = 30;
-  int pwm_b = 16;
+  int pwm_b = 12;
 
   int pwm_a_convertido = map(pwm_a, 0, 100, PWM_MINIMO, PWM_MAXIMO);
   int pwm_b_convertido = map(pwm_b, 0, 100, PWM_MINIMO, PWM_MAXIMO);
