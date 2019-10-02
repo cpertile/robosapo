@@ -1,3 +1,7 @@
+/*
+ * S.A.P.O. - Seguidor Autônomo de Percurso Orientado
+ */
+ 
 void InicializarMotores() {
   Serial.println("Inicializando Motor A...");
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);

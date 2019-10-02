@@ -12,6 +12,10 @@
 #define PINO_MOTOR_B1 7
 #define PINO_MOTOR_B2 8
 
+// Detector de Obstáculos
+#define PINO_TRIGGER 12
+#define PINO_ECHO 13
+
 // Parâmetros gerais
 #define ACELERACAO 20
 #define PWM_MINIMO 0
@@ -25,10 +29,13 @@ void setup() {
 }
 
 void loop() {
+  GetDistanciaObstaculo();
   AceleracaoDiferencial(PWM_A, PWM_B);
   Espera(2);
+  GetDistanciaObstaculo();
   CurvaEsquerda();
   Espera(2);
+  GetDistanciaObstaculo();
   CurvaDireita();
   Espera(2);
 }
