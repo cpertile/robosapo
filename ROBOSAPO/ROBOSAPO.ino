@@ -33,6 +33,24 @@
 #define PWM_A 25
 #define PWM_B 16
 
+int velocidadeInicialMotor = 50;
+
+// Constantes PID
+float Kp = 25;
+float Ki = 0;
+float Kd = 15;
+
+float P = 0;
+float I = 0;
+float D = 0;
+float valorPID = 0;
+
+float erro = 0;
+float erro_anterior = 0;
+float I_anterior = 0;
+
+int flag = 0;
+
 void setup() {
   Serial.begin(9600);
   incializarSeguidores();

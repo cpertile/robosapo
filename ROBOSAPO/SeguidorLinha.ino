@@ -21,7 +21,7 @@ bool sensorNaLinha(int leitura) {
   }
 }
 
-void lerSensores() {  
+void lerSensores() {
   int leituraEsquerdo = analogRead(PINO_ANALOGICO_SENSOR_ESQUERDO);
   int leituraCentral = analogRead(PINO_ANALOGICO_SENSOR_CENTRAL);
   int leituraDireito = analogRead(PINO_ANALOGICO_SENSOR_DIREITO);  
@@ -30,14 +30,6 @@ void lerSensores() {
   bool centralNaLinha = sensorNaLinha(leituraCentral);
   bool direitoNaLinha = sensorNaLinha(leituraDireito);
 
-  String mensagem = "ESQ [";
-  mensagem += esquerdoNaLinha;
-  mensagem += "] | MEI [";
-  mensagem += centralNaLinha;
-  mensagem += "] | DIR [";
-  mensagem += direitoNaLinha;
-  mensagem += "]";
-  Serial.println(mensagem); 
-
+  Serial.println("ESQ: " + esquerdoNaLinha + "|  MEI: " + centralNaLinha + "| DIR: " + direitoNaLinha);
   delay(10);
 }

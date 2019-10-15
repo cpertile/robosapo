@@ -8,7 +8,6 @@ void InicializarMotores() {
   pinMode(PINO_MOTOR_A1, OUTPUT);
   pinMode(PINO_MOTOR_A2, OUTPUT);
 
-  // Inicializando Motor A em 0% no sentido necessário
   analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
   digitalWrite(PINO_MOTOR_A1, LOW);
   digitalWrite(PINO_MOTOR_A2, HIGH);
@@ -18,7 +17,6 @@ void InicializarMotores() {
   pinMode(PINO_MOTOR_B1, OUTPUT);
   pinMode(PINO_MOTOR_B2, OUTPUT);
 
-  // Inicializando Motor B em 0% no sentido necessário
   analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
   digitalWrite(PINO_MOTOR_B1, HIGH);
   digitalWrite(PINO_MOTOR_B2, LOW);
@@ -27,7 +25,12 @@ void InicializarMotores() {
 void PararMotores() {
   Serial.println("Parando motores...");
   analogWrite(PINO_PWM_MOTOR_A, 0);
+  digitalWrite(PINO_MOTOR_A1, LOW);
+  digitalWrite(PINO_MOTOR_A2, LOW);
+  
   analogWrite(PINO_PWM_MOTOR_B, 0);
+  digitalWrite(PINO_MOTOR_B1, LOW);
+  digitalWrite(PINO_MOTOR_B2, LOW);
 }
 
 void AceleracaoConjunta(int porcentagem_pwm) {
