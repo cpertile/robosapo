@@ -35,11 +35,11 @@
 
 void setup() {
   Serial.begin(9600);
-  incializarSeguidores();
+  InicializarMotores();
 }
 
 void loop() {
-  lerSensores();
+  AceleracaoConjunta(50);
 }
 
 void Espera(float segundos) {
