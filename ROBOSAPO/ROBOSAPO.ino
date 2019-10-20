@@ -16,6 +16,16 @@
 #define PINO_TRIGGER 12
 #define PINO_ECHO 13
 
+/* Sensores de linha */
+// Sensor central
+#define PINO_ANALOGICO_SENSOR_CENTRAL A4
+
+// Sensor esquerdo
+#define PINO_ANALOGICO_SENSOR_ESQUERDO A7
+
+// Sensor direito
+#define PINO_ANALOGICO_SENSOR_DIREITO A0
+
 // Parâmetros gerais
 #define ACELERACAO 20
 #define PWM_MINIMO 0
@@ -25,19 +35,11 @@
 
 void setup() {
   Serial.begin(9600);
-  InicializarMotores();
+  incializarSeguidores();
 }
 
 void loop() {
-  GetDistanciaObstaculo();
-  AceleracaoDiferencial(PWM_A, PWM_B);
-  Espera(2);
-  GetDistanciaObstaculo();
-  CurvaEsquerda();
-  Espera(2);
-  GetDistanciaObstaculo();
-  CurvaDireita();
-  Espera(2);
+  lerSensores();
 }
 
 void Espera(float segundos) {
