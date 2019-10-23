@@ -1,52 +1,71 @@
 /*
  * S.A.P.O. - Seguidor Autônomo de Percurso Orientado
  */
- 
+
+bool pwmValido(int porcentagem_pwm) {
+  if (porcentagem_pwm < 0 || porcentagem_pwm > 100) {
+    Serial.println("Porcentagem inválida (permitido: 0-100)");
+    return false;
+  } else {
+    return true;
+  }
+}
+
 void InicializarMotores() {
-  Serial.println("Inicializando Motor A...");
+  // Motor A -> sentido anti-horário -> 0%
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);
   pinMode(PINO_MOTOR_A1, OUTPUT);
   pinMode(PINO_MOTOR_A2, OUTPUT);
 
-  analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
   digitalWrite(PINO_MOTOR_A1, LOW);
   digitalWrite(PINO_MOTOR_A2, HIGH);
+  analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
+  Serial.println("Inicializando Motor A...");
  
-  Serial.println("Inicializando Motor B...");
+  // Motor B -> sentido horário -> 0%
   pinMode(PINO_PWM_MOTOR_B, OUTPUT);
   pinMode(PINO_MOTOR_B1, OUTPUT);
-  pinMode(PINO_MOTOR_B2, OUTPUT);
+  pinMode(PINO_MOTOR_B2, OUTPUT);  
 
-  analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
   digitalWrite(PINO_MOTOR_B1, HIGH);
   digitalWrite(PINO_MOTOR_B2, LOW);
+  analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
+  Serial.println("Inicializando Motor B...");
 }
 
 void PararMotores() {
-  Serial.println("Parando motores...");
+  // Seta os motores em parado
   analogWrite(PINO_PWM_MOTOR_A, 0);
   digitalWrite(PINO_MOTOR_A1, LOW);
   digitalWrite(PINO_MOTOR_A2, LOW);
   
   analogWrite(PINO_PWM_MOTOR_B, 0);
-  digitalWrite(PINO_MOTOR_B1, LOW);
-  digitalWrite(PINO_MOTOR_B2, LOW);
+
+  // Log
+  Serial.println("Parando motores...");
 }
 
 void AceleracaoConjunta(int porcentagem_pwm) {
-  if (porcentagem_pwm < 0 || porcentagem_pwm > 100) {
-    Serial.println("Porcentagem inválida (permitido: 0-100)");
+  /* Acelera os dois motores à mesma porcentagem de pwm */
+
+  // Verifica a porcentagem recebida
+  if (!pwmValido(porcentagem_pwm)) {
     return;
   }
-    
+
+  // Converte para um valor analógico e envia aos motores
   int pwm_convertido = map(porcentagem_pwm, 0, 100, PWM_MINIMO, PWM_MAXIMO);
-  
-  String mensagem = "Acelerando motores a " + String(pwm_convertido) + " PWM";
   analogWrite(PINO_PWM_MOTOR_A, pwm_convertido);
   analogWrite(PINO_PWM_MOTOR_B, pwm_convertido);
+
+  // Log
+  String mensagem = "Acelerando motores a " + String(pwm_convertido) + " PWM";
+  Serial.println(mensagem);
 }
 
 void AceleracaoConjuntaGradual(int espera) {
+  /* Demonstra o funcionamento dos motores com uma aceleração gradual pelo tempo recebido */
+  
   int pwm = PWM_MINIMO;
   for (pwm; pwm <= PWM_MAXIMO; pwm += 25)
   {
@@ -59,16 +78,30 @@ void AceleracaoConjuntaGradual(int espera) {
 }
 
 void AceleracaoDiferencial(int pwm_a, int pwm_b) {
+  /* Acelera os motores com porcentagens diferentes */
+
+  // Verifica as porcentagens recebidas
+  if (!pwmValido(pwm_a)) {
+    Serial.println("PWM A inválido.");
+    return;
+  }
+  if (!pwmValido(pwm_b)) {
+    Serial.println("PWM B inválido.");
+    return;
+  }
+
+  // Converte para um valor analógico e envia aos motores
   int pwm_a_convertido = map(pwm_a, 0, 100, PWM_MINIMO, PWM_MAXIMO);
   int pwm_b_convertido = map(pwm_b, 0, 100, PWM_MINIMO, PWM_MAXIMO);
+  analogWrite(PINO_PWM_MOTOR_A, pwm_a_convertido);
+  analogWrite(PINO_PWM_MOTOR_B, pwm_b_convertido);
 
+  // Log
   Serial.println("Acelerando em frente");  
   String mensagemA = "Motor A: " + String(pwm_a_convertido) + " PWM";
   String mensagemB = "Motor B: " + String(pwm_b_convertido) + " PWM";
   Serial.println(mensagemA);
   Serial.println(mensagemB);
-  analogWrite(PINO_PWM_MOTOR_A, pwm_a_convertido);
-  analogWrite(PINO_PWM_MOTOR_B, pwm_b_convertido);
 }
 
 void CurvaEsquerda() {
