@@ -11,7 +11,7 @@ bool pwmValido(int porcentagem_pwm) {
   }
 }
 
-void InicializarMotores() {
+void inicializarMotores() {
   // Motor A -> sentido anti-horário -> 0%
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);
   pinMode(PINO_MOTOR_A1, OUTPUT);
@@ -20,7 +20,6 @@ void InicializarMotores() {
   digitalWrite(PINO_MOTOR_A1, LOW);
   digitalWrite(PINO_MOTOR_A2, HIGH);
   analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
-  Serial.println("Inicializando Motor A...");
  
   // Motor B -> sentido horário -> 0%
   pinMode(PINO_PWM_MOTOR_B, OUTPUT);
@@ -30,22 +29,26 @@ void InicializarMotores() {
   digitalWrite(PINO_MOTOR_B1, HIGH);
   digitalWrite(PINO_MOTOR_B2, LOW);
   analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
-  Serial.println("Inicializando Motor B...");
+
+  // Log
+  Serial.println("Inicializando Motores...");
 }
 
-void PararMotores() {
-  // Seta os motores em parado
+void pararMotores() {
+  // Seta aceleração em 0 e desliga a Ponte H
   analogWrite(PINO_PWM_MOTOR_A, 0);
   digitalWrite(PINO_MOTOR_A1, LOW);
   digitalWrite(PINO_MOTOR_A2, LOW);
   
   analogWrite(PINO_PWM_MOTOR_B, 0);
+  digitalWrite(PINO_MOTOR_B1, LOW);
+  digitalWrite(PINO_MOTOR_B2, LOW);
 
   // Log
   Serial.println("Parando motores...");
 }
 
-void AceleracaoConjunta(int porcentagem_pwm) {
+void aceleracaoConjunta(int porcentagem_pwm) {
   /* Acelera os dois motores à mesma porcentagem de pwm */
 
   // Verifica a porcentagem recebida
@@ -63,7 +66,7 @@ void AceleracaoConjunta(int porcentagem_pwm) {
   Serial.println(mensagem);
 }
 
-void AceleracaoConjuntaGradual(int espera) {
+void aceleracaoConjuntaGradual(int tempo) {
   /* Demonstra o funcionamento dos motores com uma aceleração gradual pelo tempo recebido */
   
   int pwm = PWM_MINIMO;
@@ -73,11 +76,11 @@ void AceleracaoConjuntaGradual(int espera) {
     Serial.println(mensagem);
     analogWrite(PINO_PWM_MOTOR_A, pwm);
     analogWrite(PINO_PWM_MOTOR_B, pwm);
-    Espera(espera);
+    espera(tempo);
   }
 }
 
-void AceleracaoDiferencial(int pwm_a, int pwm_b) {
+void aceleracaoDiferencial(int pwm_a, int pwm_b) {
   /* Acelera os motores com porcentagens diferentes */
 
   // Verifica as porcentagens recebidas
@@ -104,7 +107,7 @@ void AceleracaoDiferencial(int pwm_a, int pwm_b) {
   Serial.println(mensagemB);
 }
 
-void CurvaEsquerda() {
+void curvaEsquerda() {
   int pwm_a = 20;
   int pwm_b = 18;
 
@@ -121,7 +124,7 @@ void CurvaEsquerda() {
 }
 
 
-void CurvaDireita() {
+void curvaDireita() {
   int pwm_a = 30;
   int pwm_b = 12;
 

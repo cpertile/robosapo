@@ -7,7 +7,7 @@
  */
 #define NUM_SENSORES 3
 
-void incializarSeguidores() {
+void inicializarSeguidores() {
  pinMode(PINO_ANALOGICO_SENSOR_ESQUERDO, INPUT);
  pinMode(PINO_ANALOGICO_SENSOR_CENTRAL, INPUT);
  pinMode(PINO_ANALOGICO_SENSOR_DIREITO, INPUT);
@@ -24,12 +24,40 @@ bool sensorNaLinha(int leitura) {
 void lerSensores() {
   int leituraEsquerdo = analogRead(PINO_ANALOGICO_SENSOR_ESQUERDO);
   int leituraCentral = analogRead(PINO_ANALOGICO_SENSOR_CENTRAL);
-  int leituraDireito = analogRead(PINO_ANALOGICO_SENSOR_DIREITO);  
+  int leituraDireito = analogRead(PINO_ANALOGICO_SENSOR_DIREITO);
  
-  bool esquerdoNaLinha = sensorNaLinha(leituraEsquerdo);
-  bool centralNaLinha = sensorNaLinha(leituraCentral);
-  bool direitoNaLinha = sensorNaLinha(leituraDireito);
+  esquerdoNaLinha = sensorNaLinha(leituraEsquerdo);
+  centralNaLinha = sensorNaLinha(leituraCentral);
+  direitoNaLinha = sensorNaLinha(leituraDireito);
 
-  Serial.println("ESQ: " + esquerdoNaLinha + "|  MEI: " + centralNaLinha + "| DIR: " + direitoNaLinha);
-  delay(10);
+  String mensagem = "ESQ: " + String(leituraEsquerdo) + " | MEI: " + String(leituraCentral) + " | DIR: " + String(leituraDireito);
+  Serial.println(mensagem);
+}
+
+void decidirDirecao() {
+  // Condição de parada
+  if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
+    analogWrite(PINO_PWM_MOTOR_A, 0);
+    analogWrite(PINO_PWM_MOTOR_B, 0);
+    return;
+  }
+
+  // Curvas simples
+  if (!esquerdoNaLinha && centralNaLinha && !direitoNaLinha) {
+    aceleracaoDiferencial(PWM_A, PWM_B);
+    return;
+  }
+
+  if (esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
+    curvaEsquerda();
+    return;
+  }
+
+  if (!esquerdoNaLinha && !centralNaLinha && direitoNaLinha) {
+    curvaDireita();
+    return;
+  }
+
+  // Curvas compostas
+
 }
