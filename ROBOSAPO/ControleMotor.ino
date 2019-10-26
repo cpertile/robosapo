@@ -35,17 +35,24 @@ void inicializarMotores() {
 }
 
 void pararMotores() {
-  // Seta aceleração em 0 e desliga a Ponte H
+  // Seta aceleração em 0
   analogWrite(PINO_PWM_MOTOR_A, 0);
+  analogWrite(PINO_PWM_MOTOR_B, 0); 
+
+  // Log
+  Serial.println("Parando motores...");
+}
+
+void desligarMotores() {
+  // Desliga a ponte H
   digitalWrite(PINO_MOTOR_A1, LOW);
   digitalWrite(PINO_MOTOR_A2, LOW);
-  
-  analogWrite(PINO_PWM_MOTOR_B, 0);
+
   digitalWrite(PINO_MOTOR_B1, LOW);
   digitalWrite(PINO_MOTOR_B2, LOW);
 
   // Log
-  Serial.println("Parando motores...");
+  Serial.println("Desligando motores...");
 }
 
 void aceleracaoConjunta(int porcentagem_pwm) {

@@ -25,12 +25,18 @@ bool centralNaLinha = true;
 bool direitoNaLinha = true;
 
 // Parâmetros gerais
-#define ACELERACAO 20
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
-#define PWM_A 25
-#define PWM_B 16
-bool iniciouPercurso = false;
+float pwm_a = 25;
+float pwm_b = 16;
+
+// PID
+float Kp = 3;
+float Ki = 1;
+float Kd = 3;
+float PID = 0;
+float erro_anterior = 0;
+float erro_integral = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -41,7 +47,8 @@ void setup() {
 
 void loop() {
   lerSensores();
-  decidirDirecao();
+  calcularPID();
+  aplicarPID();
 }
 
 void espera(float segundos) {

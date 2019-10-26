@@ -34,30 +34,61 @@ void lerSensores() {
   Serial.println(mensagem);
 }
 
-void decidirDirecao() {
-  // Condição de parada
-  if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
-    analogWrite(PINO_PWM_MOTOR_A, 0);
-    analogWrite(PINO_PWM_MOTOR_B, 0);
-    return;
-  }
+void calcularPID() {
+  // Proporcional = Erro lido atualmente
+  // Integral = Erro proporcional somado com o erro anterior
+  // Derivado = Diferença (delta) do erro proporcional para o erro anterior 
 
-  // Curvas simples
+  // Curva esquerda(sentido anti-horário) = valores negativos
+  // Curva direita(sentido horário) = valores positivos
+
+  float erro_proporcional;
+  float erro_derivado;
+
+  // Andar reto
   if (!esquerdoNaLinha && centralNaLinha && !direitoNaLinha) {
-    aceleracaoDiferencial(PWM_A, PWM_B);
-    return;
+    erro_proporcional = 0;
   }
 
+  // Curvas leves
+  if (esquerdoNaLinha && centralNaLinha && !direitoNaLinha) {
+    erro_proporcional = -1;
+  }
+
+  if (!esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
+    erro_proporcional = 1;
+  }
+
+  // Curvas fechadas
   if (esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
-    curvaEsquerda();
-    return;
+    erro_proporcional = -2;
   }
 
   if (!esquerdoNaLinha && !centralNaLinha && direitoNaLinha) {
-    curvaDireita();
+    erro_proporcional = 2;
+  }
+
+  erro_integral = erro_integral + erro_proporcional;
+  erro_derivado = erro_proporcional - erro_anterior;
+  erro_anterior = erro_proporcional;
+
+  PID = Kp * erro_proporcional + Ki * erro_integral + Kd * erro_derivado;
+  Serial.println("PID = " + String(PID));
+}
+
+void aplicarPID() {
+  // Condição de parada
+  if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
+    pararMotores();
     return;
   }
 
-  // Curvas compostas
+  // Devido aos sentidos de rotação, somar PID ao motor esquerdo e subtrair do motor direito
+  float novo_pwm_a = pwm_a + PID;
+  float novo_pwm_b = pwm_b - PID;
+  aceleracaoDiferencial(novo_pwm_a, novo_pwm_b);
 
+  String mensagem = "PWM_A = " + String(novo_pwm_a) + " | PWM_B = " + String(novo_pwm_b);
+
+  Serial.println(mensagem);
 }
