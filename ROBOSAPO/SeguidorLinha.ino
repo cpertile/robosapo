@@ -8,9 +8,9 @@
 #define NUM_SENSORES 3
 
 void inicializarSeguidores() {
- pinMode(PINO_ANALOGICO_SENSOR_ESQUERDO, INPUT);
- pinMode(PINO_ANALOGICO_SENSOR_CENTRAL, INPUT);
- pinMode(PINO_ANALOGICO_SENSOR_DIREITO, INPUT);
+ pinMode(PINO_SENSOR_ESQUERDO, INPUT);
+ pinMode(PINO_SENSOR_CENTRAL, INPUT);
+ pinMode(PINO_SENSOR_DIREITO, INPUT);
 }
 
 bool sensorNaLinha(int leitura) {
@@ -22,15 +22,19 @@ bool sensorNaLinha(int leitura) {
 }
 
 void lerSensores() {
-  int leituraEsquerdo = analogRead(PINO_ANALOGICO_SENSOR_ESQUERDO);
-  int leituraCentral = analogRead(PINO_ANALOGICO_SENSOR_CENTRAL);
-  int leituraDireito = analogRead(PINO_ANALOGICO_SENSOR_DIREITO);
- 
-  esquerdoNaLinha = sensorNaLinha(leituraEsquerdo);
-  centralNaLinha = sensorNaLinha(leituraCentral);
-  direitoNaLinha = sensorNaLinha(leituraDireito);
+//  int leituraEsquerdo = analogRead(PINO_SENSOR_ESQUERDO);
+//  int leituraCentral = analogRead(PINO_SENSOR_CENTRAL);
+//  int leituraDireito = analogRead(PINO_SENSOR_DIREITO);
+// 
+//  esquerdoNaLinha = sensorNaLinha(leituraEsquerdo);
+//  centralNaLinha = sensorNaLinha(leituraCentral);
+//  direitoNaLinha = sensorNaLinha(leituraDireito);
 
-  String mensagem = "ESQ: " + String(leituraEsquerdo) + " | MEI: " + String(leituraCentral) + " | DIR: " + String(leituraDireito);
+  esquerdoNaLinha = digitalRead(PINO_SENSOR_ESQUERDO);
+  centralNaLinha = digitalRead(PINO_SENSOR_CENTRAL);
+  direitoNaLinha = digitalRead(PINO_SENSOR_DIREITO);
+
+  String mensagem = "ESQ: " + String(esquerdoNaLinha) + " | MEI: " + String(centralNaLinha) + " | DIR: " + String(direitoNaLinha);
   Serial.println(mensagem);
 }
 

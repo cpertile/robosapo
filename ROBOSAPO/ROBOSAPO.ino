@@ -17,9 +17,9 @@
 #define PINO_ECHO 13
 
 // Sensores de Linha
-#define PINO_ANALOGICO_SENSOR_CENTRAL A4
-#define PINO_ANALOGICO_SENSOR_ESQUERDO A7
-#define PINO_ANALOGICO_SENSOR_DIREITO A0
+#define PINO_SENSOR_CENTRAL 10
+#define PINO_SENSOR_ESQUERDO 9
+#define PINO_SENSOR_DIREITO 11
 bool esquerdoNaLinha = true;
 bool centralNaLinha = true;
 bool direitoNaLinha = true;
@@ -27,13 +27,13 @@ bool direitoNaLinha = true;
 // Parâmetros gerais
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
-float pwm_a = 25;
-float pwm_b = 16;
+float pwm_a = 20;
+float pwm_b = 14;
 
 // PID
 float Kp = 3;
 float Ki = 1;
-float Kd = 3;
+float Kd = 5;
 float PID = 0;
 float erro_anterior = 0;
 float erro_integral = 0;
