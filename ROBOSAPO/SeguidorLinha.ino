@@ -77,6 +77,8 @@ void calcularPID() {
   erro_anterior = erro_proporcional;
 
   PID = Kp * erro_proporcional + Ki * erro_integral + Kd * erro_derivado;
+  PID = constrain(PID, -100, 100);
+  
   Serial.println("PID = " + String(PID));
 }
 
