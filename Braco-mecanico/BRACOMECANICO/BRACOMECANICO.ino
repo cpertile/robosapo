@@ -1,24 +1,46 @@
 #include <Servo.h>
 
-Servo servo1;
-const int pinoServo = 7;
-int posicaoServo = 0;
+// Constantes e Globais
+#define PINO_SERVO_BASE 9
+// #define PINO_SERVO_MEIO 
+// #define PINO_SERVO_BOCA
+#define ZERO 0
+#define FULL 179
+int angulo = 0;
+
+// Instâncias + configs
+Servo servoBase;
+// Servo servoMeio;
+// Servo servoBoca;
 
 void setup() {
   Serial.begin(9600);
-  servo1.attach(pinoServo);
+  servoBase.attach(PINO_SERVO_BASE);
 }
 
 void loop() {
-  for (posicaoServo = 0; posicaoServo <= 179; posicaoServo += 15) {
-    Serial.println("Posicao(graus): " + String(posicaoServo));
-    servo1.write(posicaoServo);
+  demo();
+}
+
+void tudoParaEsquerda() {
+	servoBase.write(ZERO);
+}
+
+void tudoParaDireita() {
+	servoBase.write(FULL);
+}
+
+void demo() {
+	// Aplica o <angulo> no <servoBase> (0° -> 180° -> 0°)
+	for (angulo = ZERO; angulo <= FULL; angulo += 15) {
+    servoBase.write(angulo);
+    Serial.println("Posicao(graus): " + String(angulo));
     delay(500);
   }
 
-  for (posicaoServo = 180; posicaoServo > 0; posicaoServo -= 15) {
-    Serial.println("Posicao(graus): " + String(posicaoServo));
-    servo1.write(posicaoServo);
+  for (angulo = FULL; angulo > ZERO; angulo -= 15) {
+    servoBase.write(angulo);
+    Serial.println("Posicao(graus): " + String(angulo));
     delay(500);
   }
 }
