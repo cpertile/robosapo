@@ -15,6 +15,7 @@
 // Detector de Obstáculos
 #define PINO_TRIGGER 12
 #define PINO_ECHO 13
+bool obstaculoDetectado = false;
 
 // Sensores de Linha
 #define PINO_SENSOR_CENTRAL 10
@@ -24,13 +25,13 @@ bool esquerdoNaLinha = true;
 bool centralNaLinha = true;
 bool direitoNaLinha = true;
 
-// Parâmetros gerais
+// Parâmetros gerais de PWM
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
 float pwm_a = 20;
 float pwm_b = 14;
 
-// PID
+// Constantes PID
 float Kp = 3;
 float Ki = 1;
 float Kd = 5;
@@ -40,15 +41,28 @@ float erro_integral = 0;
 
 void setup() {
   Serial.begin(9600);
-  inicializarMotores();
+  inicializarSensorDistancia();
   inicializarSeguidores();
+  inicializarMotores();
   espera(1);
 }
 
 void loop() {
-  lerSensores();
-  calcularPID();
-  aplicarPID();
+  // Verificar se o caminho está livre
+  lerDetectorObstaculo();
+  if (obstaculoDetectado) {
+    pararMotores();
+    Serial.println("Obstáculo detectado!!!");
+  } else {
+    Serial.println("Caminho livre");
+
+    // Detectar direção
+    lerSensoresLinha();
+
+    // Calcular e aplicar potência dos motores via PID
+    calcularPID();
+    aplicarPID();
+  }
 }
 
 void espera(float segundos) {
