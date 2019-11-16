@@ -6,8 +6,7 @@
 
 UltraSonicDistanceSensor SensorDistancia(PINO_TRIGGER, PINO_ECHO);
 
-void GetDistanciaObstaculo() {
+void getDistanciaObstaculo() {
   double distancia = SensorDistancia.measureDistanceCm();
   Serial.println(distancia);
-  delay(500);
 }

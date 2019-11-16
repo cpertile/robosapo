@@ -16,33 +16,42 @@
 #define PINO_TRIGGER 12
 #define PINO_ECHO 13
 
-/* Sensores de linha */
-// Sensor central
-#define PINO_ANALOGICO_SENSOR_CENTRAL A4
-
-// Sensor esquerdo
-#define PINO_ANALOGICO_SENSOR_ESQUERDO A7
-
-// Sensor direito
-#define PINO_ANALOGICO_SENSOR_DIREITO A0
+// Sensores de Linha
+#define PINO_SENSOR_CENTRAL 10
+#define PINO_SENSOR_ESQUERDO 9
+#define PINO_SENSOR_DIREITO 11
+bool esquerdoNaLinha = true;
+bool centralNaLinha = true;
+bool direitoNaLinha = true;
 
 // Parâmetros gerais
-#define ACELERACAO 20
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
-#define PWM_A 25
-#define PWM_B 16
+float pwm_a = 20;
+float pwm_b = 14;
+
+// PID
+float Kp = 3;
+float Ki = 1;
+float Kd = 5;
+float PID = 0;
+float erro_anterior = 0;
+float erro_integral = 0;
 
 void setup() {
   Serial.begin(9600);
-  InicializarMotores();
+  inicializarMotores();
+  inicializarSeguidores();
+  espera(1);
 }
 
 void loop() {
-  AceleracaoConjunta(50);
+  lerSensores();
+  calcularPID();
+  aplicarPID();
 }
 
-void Espera(float segundos) {
+void espera(float segundos) {
   if (segundos < 0 || segundos > 10) {
     Serial.println("Espera inválida (permitido: 0-10)");
     return;
