@@ -21,15 +21,7 @@ bool sensorNaLinha(int leitura) {
   }
 }
 
-void lerSensores() {
-//  int leituraEsquerdo = analogRead(PINO_SENSOR_ESQUERDO);
-//  int leituraCentral = analogRead(PINO_SENSOR_CENTRAL);
-//  int leituraDireito = analogRead(PINO_SENSOR_DIREITO);
-// 
-//  esquerdoNaLinha = sensorNaLinha(leituraEsquerdo);
-//  centralNaLinha = sensorNaLinha(leituraCentral);
-//  direitoNaLinha = sensorNaLinha(leituraDireito);
-
+void lerSensoresLinha() {
   esquerdoNaLinha = digitalRead(PINO_SENSOR_ESQUERDO);
   centralNaLinha = digitalRead(PINO_SENSOR_CENTRAL);
   direitoNaLinha = digitalRead(PINO_SENSOR_DIREITO);
@@ -39,12 +31,13 @@ void lerSensores() {
 }
 
 void calcularPID() {
-  // Proporcional = Erro lido atualmente
-  // Integral = Erro proporcional somado com o erro anterior
-  // Derivado = Diferença (delta) do erro proporcional para o erro anterior 
+/*  Proporcional = Erro lido atualmente
+ *  Integral = Erro proporcional somado com o erro anterior
+ *  Derivado = Diferença (delta) do erro proporcional para o erro anterior 
 
-  // Curva esquerda(sentido anti-horário) = valores negativos
-  // Curva direita(sentido horário) = valores positivos
+ *  Curva esquerda(sentido anti-horário) = valores negativos
+ *  Curva direita(sentido horário) = valores positivos
+ */
 
   float erro_proporcional;
   float erro_derivado;
