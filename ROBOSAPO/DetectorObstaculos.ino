@@ -25,11 +25,11 @@ float getDistanciaNormalizada() {
 	return distanciaNormalizada;
 }
 
-bool detectarObstaculo() {
+void detectarObstaculo() {
 	float distancia = getDistanciaNormalizada();
 	if (distancia <= 10) {
-		return true;
+		obstaculoDetectado = true;
 	} else {
-		return false;
+		obstaculoDetectado = false;
 	}
 }
