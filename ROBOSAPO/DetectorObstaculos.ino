@@ -4,13 +4,11 @@
 
 #include <HCSR04.h>
 
-void inicializarSensorDistancia() {
-	UltraSonicDistanceSensor SensorDistancia(PINO_TRIGGER, PINO_ECHO);
-}
+UltraSonicDistanceSensor SensorDistancia(PINO_TRIGGER, PINO_ECHO);
 
 float getDistanciaAbsoluta() {
   float distanciaLida = SensorDistancia.measureDistanceCm();
-  Serial.println("Distancia lida direto: " + String(distancia));
+//  Serial.println("Distancia lida direto: " + String(distanciaLida));
   return distanciaLida;
 }
 
@@ -25,9 +23,9 @@ float getDistanciaNormalizada() {
 	return distanciaNormalizada;
 }
 
-void detectarObstaculo() {
+void lerDetectorObstaculo() {
 	float distancia = getDistanciaNormalizada();
-	if (distancia <= 10) {
+	if (distancia >= 0 && distancia <= 35) {
 		obstaculoDetectado = true;
 	} else {
 		obstaculoDetectado = false;

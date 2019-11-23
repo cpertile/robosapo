@@ -3,24 +3,24 @@
  */
 
 // Motor A
-#define PINO_PWM_MOTOR_A 5
-#define PINO_MOTOR_A1 3
-#define PINO_MOTOR_A2 4
+#define PINO_PWM_MOTOR_A 13
+#define PINO_MOTOR_A1 12
+#define PINO_MOTOR_A2 11
 
 // Motor B
-#define PINO_PWM_MOTOR_B 6
-#define PINO_MOTOR_B1 7
-#define PINO_MOTOR_B2 8
+#define PINO_PWM_MOTOR_B 8
+#define PINO_MOTOR_B1 10
+#define PINO_MOTOR_B2 9
 
 // Detector de Obstáculos
-#define PINO_TRIGGER 12
-#define PINO_ECHO 13
+#define PINO_TRIGGER 40
+#define PINO_ECHO 41
 bool obstaculoDetectado = false;
 
 // Sensores de Linha
-#define PINO_SENSOR_CENTRAL 10
-#define PINO_SENSOR_ESQUERDO 9
-#define PINO_SENSOR_DIREITO 11
+#define PINO_SENSOR_CENTRAL 3
+#define PINO_SENSOR_ESQUERDO 2
+#define PINO_SENSOR_DIREITO 4
 bool esquerdoNaLinha = true;
 bool centralNaLinha = true;
 bool direitoNaLinha = true;
@@ -28,20 +28,21 @@ bool direitoNaLinha = true;
 // Parâmetros gerais de PWM
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
-float pwm_a = 20;
-float pwm_b = 14;
+float pwm_a = 22;
+float pwm_b = 22;
 
 // Constantes PID
-float Kp = 3;
-float Ki = 1;
-float Kd = 5;
+float Kp = 5;
+float Ki = 3;
+float Kd = 7;
 float PID = 0;
 float erro_anterior = 0;
 float erro_integral = 0;
 
+bool parado = true;
+
 void setup() {
   Serial.begin(9600);
-  inicializarSensorDistancia();
   inicializarSeguidores();
   inicializarMotores();
   espera(1);
@@ -51,18 +52,26 @@ void loop() {
   // Verificar se o caminho está livre
   lerDetectorObstaculo();
   if (obstaculoDetectado) {
+    inicializarMotoresInvertidos();
+    if(!parado) {
+      aceleracaoConjunta(100);
+    }
     pararMotores();
-    Serial.println("Obstáculo detectado!!!");
+    parado = true;
+//    Serial.println("Obstáculo detectado!!!");
+    lerSensoresLinha();
   } else {
-    Serial.println("Caminho livre");
-
+    parado = false;
+    inicializarMotores();
+    
     // Detectar direção
     lerSensoresLinha();
 
     // Calcular e aplicar potência dos motores via PID
     calcularPID();
     aplicarPID();
-  }
+//    Serial.println("Caminho livre");
+  }  
 }
 
 void espera(float segundos) {

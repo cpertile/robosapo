@@ -12,7 +12,30 @@ bool pwmValido(int porcentagem_pwm) {
 }
 
 void inicializarMotores() {
-  // Motor A -> sentido anti-horário -> 0%
+  // Motor A -> sentido horário -> 0%
+  pinMode(PINO_PWM_MOTOR_A, OUTPUT);
+  pinMode(PINO_MOTOR_A1, OUTPUT);
+  pinMode(PINO_MOTOR_A2, OUTPUT);
+
+  digitalWrite(PINO_MOTOR_A1, HIGH);
+  digitalWrite(PINO_MOTOR_A2, LOW);
+  analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
+ 
+  // Motor B -> sentido anti-horário -> 0%
+  pinMode(PINO_PWM_MOTOR_B, OUTPUT);
+  pinMode(PINO_MOTOR_B1, OUTPUT);
+  pinMode(PINO_MOTOR_B2, OUTPUT);  
+
+  digitalWrite(PINO_MOTOR_B1, LOW);
+  digitalWrite(PINO_MOTOR_B2, HIGH);
+  analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
+
+  // Log
+  Serial.println("Inicializando Motores...");
+}
+
+void inicializarMotoresInvertidos() {
+  // Motor A -> sentido horário -> 0%
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);
   pinMode(PINO_MOTOR_A1, OUTPUT);
   pinMode(PINO_MOTOR_A2, OUTPUT);
@@ -21,7 +44,7 @@ void inicializarMotores() {
   digitalWrite(PINO_MOTOR_A2, HIGH);
   analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
  
-  // Motor B -> sentido horário -> 0%
+  // Motor B -> sentido anti-horário -> 0%
   pinMode(PINO_PWM_MOTOR_B, OUTPUT);
   pinMode(PINO_MOTOR_B1, OUTPUT);
   pinMode(PINO_MOTOR_B2, OUTPUT);  

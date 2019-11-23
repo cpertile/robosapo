@@ -23,8 +23,11 @@ bool sensorNaLinha(int leitura) {
 
 void lerSensoresLinha() {
   esquerdoNaLinha = digitalRead(PINO_SENSOR_ESQUERDO);
+  esquerdoNaLinha = !esquerdoNaLinha;
   centralNaLinha = digitalRead(PINO_SENSOR_CENTRAL);
+  centralNaLinha = !centralNaLinha;
   direitoNaLinha = digitalRead(PINO_SENSOR_DIREITO);
+  direitoNaLinha = !direitoNaLinha;
 
   String mensagem = "ESQ: " + String(esquerdoNaLinha) + " | MEI: " + String(centralNaLinha) + " | DIR: " + String(direitoNaLinha);
   Serial.println(mensagem);
@@ -70,21 +73,24 @@ void calcularPID() {
   erro_anterior = erro_proporcional;
 
   PID = Kp * erro_proporcional + Ki * erro_integral + Kd * erro_derivado;
-  PID = constrain(PID, -100, 100);
   
   Serial.println("PID = " + String(PID));
 }
 
 void aplicarPID() {
   // Condição de parada
-  if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
+  if (!esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
     pararMotores();
     return;
   }
 
   // Devido aos sentidos de rotação, somar PID ao motor esquerdo e subtrair do motor direito
-  float novo_pwm_a = pwm_a + PID;
-  float novo_pwm_b = pwm_b - PID;
+  float novo_pwm_a = pwm_a - PID;
+  novo_pwm_a = constrain(novo_pwm_a, 0, 100);
+  
+  float novo_pwm_b = pwm_b + PID;
+  novo_pwm_b = constrain(novo_pwm_b, 0, 100);
+  
   aceleracaoDiferencial(novo_pwm_a, novo_pwm_b);
 
   String mensagem = "PWM_A = " + String(novo_pwm_a) + " | PWM_B = " + String(novo_pwm_b);
