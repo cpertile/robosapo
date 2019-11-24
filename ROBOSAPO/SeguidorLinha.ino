@@ -23,11 +23,8 @@ bool sensorNaLinha(int leitura) {
 
 void lerSensoresLinha() {
   esquerdoNaLinha = digitalRead(PINO_SENSOR_ESQUERDO);
-  esquerdoNaLinha = !esquerdoNaLinha;
   centralNaLinha = digitalRead(PINO_SENSOR_CENTRAL);
-  centralNaLinha = !centralNaLinha;
   direitoNaLinha = digitalRead(PINO_SENSOR_DIREITO);
-  direitoNaLinha = !direitoNaLinha;
 
   String mensagem = "ESQ: " + String(esquerdoNaLinha) + " | MEI: " + String(centralNaLinha) + " | DIR: " + String(direitoNaLinha);
   Serial.println(mensagem);
@@ -52,20 +49,24 @@ void calcularPID() {
 
   // Curvas leves
   if (esquerdoNaLinha && centralNaLinha && !direitoNaLinha) {
-    erro_proporcional = -1;
+    erro_proporcional = -2;
   }
 
   if (!esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
-    erro_proporcional = 1;
+    erro_proporcional = 2;
   }
 
   // Curvas fechadas
   if (esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
-    erro_proporcional = -2;
+    erro_proporcional = -1.5;
   }
 
   if (!esquerdoNaLinha && !centralNaLinha && direitoNaLinha) {
-    erro_proporcional = 2;
+    erro_proporcional = 1.5;
+  }
+
+  if (!esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
+    erro_proporcional = erro_anterior/3*2;
   }
 
   erro_integral = erro_integral + erro_proporcional;
@@ -79,18 +80,19 @@ void calcularPID() {
 
 void aplicarPID() {
   // Condição de parada
-  if (!esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
+  if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
     pararMotores();
     return;
   }
 
   // Devido aos sentidos de rotação, somar PID ao motor esquerdo e subtrair do motor direito
+
   float novo_pwm_a = pwm_a - PID;
-  novo_pwm_a = constrain(novo_pwm_a, 0, 100);
-  
+  novo_pwm_a = constrain(novo_pwm_a, 0, 75);
+
   float novo_pwm_b = pwm_b + PID;
-  novo_pwm_b = constrain(novo_pwm_b, 0, 100);
-  
+  novo_pwm_b = constrain(novo_pwm_b, 0, 75);
+ 
   aceleracaoDiferencial(novo_pwm_a, novo_pwm_b);
 
   String mensagem = "PWM_A = " + String(novo_pwm_a) + " | PWM_B = " + String(novo_pwm_b);

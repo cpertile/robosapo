@@ -28,13 +28,13 @@ bool direitoNaLinha = true;
 // Parâmetros gerais de PWM
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
-float pwm_a = 22;
-float pwm_b = 22;
+float pwm_a = 17;
+float pwm_b = 21;
 
 // Constantes PID
-float Kp = 5;
-float Ki = 3;
-float Kd = 7;
+float Kp = 10.5;
+float Ki = 1.1;
+float Kd = 9.5;
 float PID = 0;
 float erro_anterior = 0;
 float erro_integral = 0;
@@ -49,6 +49,7 @@ void setup() {
 }
 
 void loop() {
+  delay(10);
   // Verificar se o caminho está livre
   lerDetectorObstaculo();
   if (obstaculoDetectado) {

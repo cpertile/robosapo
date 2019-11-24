@@ -54,7 +54,7 @@ void inicializarMotoresInvertidos() {
   analogWrite(PINO_PWM_MOTOR_B, PWM_MINIMO);
 
   // Log
-  Serial.println("Inicializando Motores...");
+  Serial.println("Inicializando Motores Invertidos...");
 }
 
 void pararMotores() {
