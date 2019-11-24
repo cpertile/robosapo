@@ -52,12 +52,13 @@ void setup() {
 }
 
 void loop() {
-  // Verificar presença ou não de obstáculo e agir de acordo
+  // Verificar presença ou não de obstáculo
   obstaculoDetectado = lerDetectorObstaculo();
 
   if (obstaculoDetectado) {
     realizarParadaRapida();
   } else {
+    // Fazer leitura da linha
     lerSensoresLinha();
     detectadoFimDeLinha = verificarFimDeLinha();
     if (detectadoFimDeLinha) {
