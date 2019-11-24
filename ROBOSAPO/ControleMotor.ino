@@ -12,6 +12,10 @@ bool pwmValido(int porcentagem_pwm) {
 }
 
 void inicializarMotores() {
+  setarMotoresEmFrente();
+}
+
+void setarMotoresEmFrente() {
   // Motor A -> sentido horário -> 0%
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);
   pinMode(PINO_MOTOR_A1, OUTPUT);
@@ -34,7 +38,7 @@ void inicializarMotores() {
   Serial.println("Inicializando Motores...");
 }
 
-void inicializarMotoresInvertidos() {
+void setarMotoresParaTras() {
   // Motor A -> sentido horário -> 0%
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);
   pinMode(PINO_MOTOR_A1, OUTPUT);
@@ -137,35 +141,11 @@ void aceleracaoDiferencial(int pwm_a, int pwm_b) {
   Serial.println(mensagemB);
 }
 
-void curvaEsquerda() {
-  int pwm_a = 20;
-  int pwm_b = 18;
-
-  int pwm_a_convertido = map(pwm_a, 0, 100, PWM_MINIMO, PWM_MAXIMO);
-  int pwm_b_convertido = map(pwm_b, 0, 100, PWM_MINIMO, PWM_MAXIMO);
-
-  Serial.println("Curva Esquerda");
-  String mensagemA = "Motor A: " + String(pwm_a_convertido) + " PWM";
-  String mensagemB = "Motor B: " + String(pwm_b_convertido) + " PWM";
-  Serial.println(mensagemA);
-  Serial.println(mensagemB);
-  analogWrite(PINO_PWM_MOTOR_A, pwm_a_convertido);
-  analogWrite(PINO_PWM_MOTOR_B, pwm_b_convertido);
-}
-
-
-void curvaDireita() {
-  int pwm_a = 30;
-  int pwm_b = 12;
-
-  int pwm_a_convertido = map(pwm_a, 0, 100, PWM_MINIMO, PWM_MAXIMO);
-  int pwm_b_convertido = map(pwm_b, 0, 100, PWM_MINIMO, PWM_MAXIMO);
-
-  Serial.println("Curva Direita");
-  String mensagemA = "Motor A: " + String(pwm_a_convertido) + " PWM";
-  String mensagemB = "Motor B: " + String(pwm_b_convertido) + " PWM";
-  Serial.println(mensagemA);
-  Serial.println(mensagemB);
-  analogWrite(PINO_PWM_MOTOR_A, pwm_a_convertido);
-  analogWrite(PINO_PWM_MOTOR_B, pwm_b_convertido);
+void realizarParadaAntiObstaculo() {
+  setarMotoresParaTras();
+  if(andando) {
+    aceleracaoConjunta(100);
+  }
+  pararMotores();
+  andando = false;
 }

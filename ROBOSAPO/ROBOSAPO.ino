@@ -39,7 +39,9 @@ float PID = 0;
 float erro_anterior = 0;
 float erro_integral = 0;
 
-bool parado = true;
+// Variáveis de controle geral
+bool andando = false;
+bool cuboCarregado = false;
 
 void setup() {
   Serial.begin(9600);
@@ -49,29 +51,16 @@ void setup() {
 }
 
 void loop() {
-  delay(10);
-  // Verificar se o caminho está livre
-  lerDetectorObstaculo();
-  if (obstaculoDetectado) {
-    inicializarMotoresInvertidos();
-    if(!parado) {
-      aceleracaoConjunta(100);
-    }
-    pararMotores();
-    parado = true;
-//    Serial.println("Obstáculo detectado!!!");
-    lerSensoresLinha();
-  } else {
-    parado = false;
-    inicializarMotores();
-    
-    // Detectar direção
-    lerSensoresLinha();
+  obstaculoDetectado = lerDetectorObstaculo();
 
-    // Calcular e aplicar potência dos motores via PID
+  if (obstaculoDetectado) {
+    realizarParadaAntiObstaculo();
+  } else {
+    setarMotoresEmFrente();
+    lerSensoresLinha();
     calcularPID();
     aplicarPID();
-//    Serial.println("Caminho livre");
+    andando = true;
   }  
 }
 

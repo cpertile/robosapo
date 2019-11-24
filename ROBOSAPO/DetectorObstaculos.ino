@@ -8,7 +8,6 @@ UltraSonicDistanceSensor SensorDistancia(PINO_TRIGGER, PINO_ECHO);
 
 float getDistanciaAbsoluta() {
   float distanciaLida = SensorDistancia.measureDistanceCm();
-//  Serial.println("Distancia lida direto: " + String(distanciaLida));
   return distanciaLida;
 }
 
@@ -23,11 +22,11 @@ float getDistanciaNormalizada() {
 	return distanciaNormalizada;
 }
 
-void lerDetectorObstaculo() {
+bool lerDetectorObstaculo() {
 	float distancia = getDistanciaNormalizada();
 	if (distancia >= 0 && distancia <= 35) {
-		obstaculoDetectado = true;
+		return true;
 	} else {
-		obstaculoDetectado = false;
+		return false;
 	}
 }
