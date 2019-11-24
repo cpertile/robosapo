@@ -42,6 +42,7 @@ float erro_integral = 0;
 // Variáveis de controle geral
 bool andando = false;
 bool cuboCarregado = false;
+bool detectadoFimDeLinha = false;
 
 void setup() {
   Serial.begin(9600);
@@ -51,17 +52,23 @@ void setup() {
 }
 
 void loop() {
+  // Verificar presença ou não de obstáculo e agir de acordo
   obstaculoDetectado = lerDetectorObstaculo();
 
   if (obstaculoDetectado) {
-    realizarParadaAntiObstaculo();
+    realizarParadaRapida();
   } else {
-    setarMotoresEmFrente();
     lerSensoresLinha();
-    calcularPID();
-    aplicarPID();
-    andando = true;
-  }  
+    detectadoFimDeLinha = verificarFimDeLinha();
+    if (detectadoFimDeLinha) {
+      realizarParadaRapida();
+    } else {
+      setarMotoresEmFrente();
+      calcularPID();
+      aplicarPID();
+      andando = true;
+    }
+  }
 }
 
 void espera(float segundos) {

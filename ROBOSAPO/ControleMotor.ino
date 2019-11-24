@@ -16,7 +16,7 @@ void inicializarMotores() {
 }
 
 void setarMotoresEmFrente() {
-  // Motor A -> sentido horário -> 0%
+  // Motor A -> 0%
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);
   pinMode(PINO_MOTOR_A1, OUTPUT);
   pinMode(PINO_MOTOR_A2, OUTPUT);
@@ -25,7 +25,7 @@ void setarMotoresEmFrente() {
   digitalWrite(PINO_MOTOR_A2, LOW);
   analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
  
-  // Motor B -> sentido anti-horário -> 0%
+  // Motor B -> 0%
   pinMode(PINO_PWM_MOTOR_B, OUTPUT);
   pinMode(PINO_MOTOR_B1, OUTPUT);
   pinMode(PINO_MOTOR_B2, OUTPUT);  
@@ -39,7 +39,7 @@ void setarMotoresEmFrente() {
 }
 
 void setarMotoresParaTras() {
-  // Motor A -> sentido horário -> 0%
+  // Motor A -> 0%
   pinMode(PINO_PWM_MOTOR_A, OUTPUT);
   pinMode(PINO_MOTOR_A1, OUTPUT);
   pinMode(PINO_MOTOR_A2, OUTPUT);
@@ -48,7 +48,7 @@ void setarMotoresParaTras() {
   digitalWrite(PINO_MOTOR_A2, HIGH);
   analogWrite(PINO_PWM_MOTOR_A, PWM_MINIMO);
  
-  // Motor B -> sentido anti-horário -> 0%
+  // Motor B -> 0%
   pinMode(PINO_PWM_MOTOR_B, OUTPUT);
   pinMode(PINO_MOTOR_B1, OUTPUT);
   pinMode(PINO_MOTOR_B2, OUTPUT);  
@@ -141,7 +141,7 @@ void aceleracaoDiferencial(int pwm_a, int pwm_b) {
   Serial.println(mensagemB);
 }
 
-void realizarParadaAntiObstaculo() {
+void realizarParadaRapida() {
   setarMotoresParaTras();
   if(andando) {
     aceleracaoConjunta(100);

@@ -30,13 +30,17 @@ void lerSensoresLinha() {
   Serial.println(mensagem);
 }
 
+void verificarFimDeLinha() {
+  // Condição de parada
+  if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
+    return true;
+  }
+}
+
 void calcularPID() {
 /*  Proporcional = Erro lido atualmente
  *  Integral = Erro proporcional somado com o erro anterior
  *  Derivado = Diferença (delta) do erro proporcional para o erro anterior 
-
- *  Curva esquerda(sentido anti-horário) = valores negativos
- *  Curva direita(sentido horário) = valores positivos
  */
 
   float erro_proporcional;
@@ -47,16 +51,16 @@ void calcularPID() {
     erro_proporcional = 0;
   }
 
-  // Curvas leves
+  // Curvas de 2 sensores
   if (esquerdoNaLinha && centralNaLinha && !direitoNaLinha) {
-    erro_proporcional = -2;
+    erro_proporcional = -1;
   }
 
   if (!esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
-    erro_proporcional = 2;
+    erro_proporcional = 1;
   }
 
-  // Curvas fechadas
+  // Curvas de 1 sensor
   if (esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
     erro_proporcional = -1.5;
   }
@@ -66,6 +70,8 @@ void calcularPID() {
   }
 
   if (!esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
+    /* Ao não detectar mais a linha, continuar fazendo o que estava fazendo antes
+    com dois terços da intensidade */
     erro_proporcional = erro_anterior/3*2;
   }
 
@@ -79,12 +85,6 @@ void calcularPID() {
 }
 
 void aplicarPID() {
-  // Condição de parada
-  if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
-    pararMotores();
-    return;
-  }
-
   // Devido aos sentidos de rotação, somar PID ao motor esquerdo e subtrair do motor direito
 
   float novo_pwm_a = pwm_a - PID;
