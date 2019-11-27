@@ -2,17 +2,9 @@
  * S.A.P.O. - Seguidor Autônomo de Percurso Orientado
  */
 
-bool pwmValido(int porcentagem_pwm) {
-  if (porcentagem_pwm < 0 || porcentagem_pwm > 100) {
-    Serial.println("Porcentagem inválida (permitido: 0-100)");
-    return false;
-  } else {
-    return true;
-  }
-}
-
 void inicializarMotores() {
   setarMotoresEmFrente();
+  ;
 }
 
 void setarMotoresEmFrente() {
@@ -71,7 +63,7 @@ void pararMotores() {
 }
 
 void desligarMotores() {
-  // Desliga a ponte H
+  // Desliga fisicamente a ponte H
   digitalWrite(PINO_MOTOR_A1, LOW);
   digitalWrite(PINO_MOTOR_A2, LOW);
 
@@ -148,4 +140,13 @@ void realizarParadaRapida() {
   }
   pararMotores();
   andando = false;
+}
+
+bool pwmValido(int porcentagem_pwm) {
+  if (porcentagem_pwm < 0 || porcentagem_pwm > 100) {
+    Serial.println("Porcentagem inválida (permitido: 0-100)");
+    return false;
+  } else {
+    return true;
+  }
 }
