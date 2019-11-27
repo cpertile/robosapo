@@ -1,5 +1,6 @@
-![S.A.P.O.](/images/sapo.png)
 # robosapo
+![S.A.P.O.](/images/sapo.png)
+
 S.A.P.O. - Seguidor Autônomo de Percurso Orientado
 
 S.A.P.O. é um robô criado como projeto interdisciplinar para a Universidade Tuiuti do Paraná.
