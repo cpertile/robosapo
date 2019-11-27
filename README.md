@@ -1,3 +1,4 @@
+![S.A.P.O.](/images/sapo_menor.png)
 # robosapo
 S.A.P.O. - Seguidor Autônomo de Percurso Orientado
 
