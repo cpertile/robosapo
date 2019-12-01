@@ -57,6 +57,8 @@ void setup() {
 }
 
 void loop() {
+  lerFotoResistores();
+  
   // Verificar presença ou não de obstáculo
   obstaculoDetectado = lerDetectorObstaculo();
 
