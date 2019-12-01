@@ -18,8 +18,8 @@ void lerSensoresLinha() {
   centralNaLinha = digitalRead(PINO_SENSOR_CENTRAL);
   direitoNaLinha = digitalRead(PINO_SENSOR_DIREITO);
 
-  String mensagem = "ESQ: " + String(esquerdoNaLinha) + " | MEI: " + String(centralNaLinha) + " | DIR: " + String(direitoNaLinha);
-  Serial.println(mensagem);
+  // String mensagem = "ESQ: " + String(esquerdoNaLinha) + " | MEI: " + String(centralNaLinha) + " | DIR: " + String(direitoNaLinha);
+  // Serial.println(mensagem);
 }
 
 bool verificarFimDeLinha() {
@@ -75,7 +75,7 @@ void calcularPID() {
   PID = Kp * erro_proporcional + Ki * erro_integral + Kd * erro_derivado;
 //  PID = constrain(PID, -30,30);
   
-  Serial.println("PID = " + String(PID));
+  // Serial.println("PID = " + String(PID));
 }
 
 void aplicarPID() {
@@ -89,7 +89,7 @@ void aplicarPID() {
  
   aceleracaoDiferencial(novo_pwm_a, novo_pwm_b);
 
-  String mensagem = "PWM_A = " + String(novo_pwm_a) + " | PWM_B = " + String(novo_pwm_b);
+  // String mensagem = "PWM_A = " + String(novo_pwm_a) + " | PWM_B = " + String(novo_pwm_b);
 
-  Serial.println(mensagem);
+  // Serial.println(mensagem);
 }

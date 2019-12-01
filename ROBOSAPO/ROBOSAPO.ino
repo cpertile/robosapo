@@ -50,7 +50,7 @@ bool cuboCarregado = false;
 bool detectadoFimDeLinha = false;
 
 void setup() {
-  Serial.begin(9600);
+  // Serial.begin(9600);
   inicializarSeguidores();
   inicializarMotores();
   espera(1);
@@ -64,18 +64,18 @@ void loop() {
   cuboCarregado = verificarCuboCarregado();
   
   if (obstaculoDetectado) {
-    Serial.println("Obstaculo detectado");
+    // Serial.println("Obstaculo detectado");
     realizarParadaRapida();
   } else {
-    Serial.println("Caminho Livre");    
+    // Serial.println("Caminho Livre");
     // Fazer leitura da linha
     lerSensoresLinha();
     detectadoFimDeLinha = verificarFimDeLinha();
     if (detectadoFimDeLinha) {
-      Serial.println("Detectado fim de linha");
+      // Serial.println("Detectado fim de linha");
       realizarParadaRapida();
     } else if (cuboCarregado) {
-      Serial.println("Acelerando e calculando PID");
+      // Serial.println("Acelerando e calculando PID");
       setarMotoresEmFrente();
       calcularPID();
       aplicarPID();

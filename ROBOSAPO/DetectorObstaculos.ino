@@ -15,10 +15,7 @@ float getDistanciaNormalizada() {
 	float distancia1 = getDistanciaAbsoluta();
 	float distancia2 = getDistanciaAbsoluta();
 	float distancia3 = getDistanciaAbsoluta();
-
 	float distanciaNormalizada = (distancia1 + distancia2 + distancia3)/3;
-
-	Serial.println("Distancia normalizada: " + String(distanciaNormalizada));
 	return distanciaNormalizada;
 }
 
