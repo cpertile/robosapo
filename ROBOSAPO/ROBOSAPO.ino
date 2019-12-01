@@ -28,13 +28,13 @@ bool direitoNaLinha = true;
 // Parâmetros gerais de PWM
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
-float pwm_a = 17;
-float pwm_b = 21;
+float pwm_a = 15;
+float pwm_b = 19;
 
 // Constantes PID
-float Kp = 10.5;
-float Ki = 1.1;
-float Kd = 9.5;
+float Kp = 6;
+float Ki = 2;
+float Kd = 4;
 float PID = 0;
 float erro_anterior = 0;
 float erro_integral = 0;
@@ -56,14 +56,18 @@ void loop() {
   obstaculoDetectado = lerDetectorObstaculo();
 
   if (obstaculoDetectado) {
+    Serial.println("Obstaculo detectado");
     realizarParadaRapida();
   } else {
+    Serial.println("Caminho Livre");
     // Fazer leitura da linha
     lerSensoresLinha();
     detectadoFimDeLinha = verificarFimDeLinha();
     if (detectadoFimDeLinha) {
+      Serial.println("Detectado fim de linha");
       realizarParadaRapida();
     } else {
+      Serial.println("Acelerando e calculando PID");
       setarMotoresEmFrente();
       calcularPID();
       aplicarPID();

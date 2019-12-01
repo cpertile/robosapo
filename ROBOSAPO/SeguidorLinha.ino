@@ -13,14 +13,6 @@ void inicializarSeguidores() {
  pinMode(PINO_SENSOR_DIREITO, INPUT);
 }
 
-bool sensorNaLinha(int leitura) {
-  if (leitura > 100) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 void lerSensoresLinha() {
   esquerdoNaLinha = digitalRead(PINO_SENSOR_ESQUERDO);
   centralNaLinha = digitalRead(PINO_SENSOR_CENTRAL);
@@ -30,10 +22,12 @@ void lerSensoresLinha() {
   Serial.println(mensagem);
 }
 
-void verificarFimDeLinha() {
+bool verificarFimDeLinha() {
   // Condição de parada
   if (esquerdoNaLinha && centralNaLinha && direitoNaLinha) {
     return true;
+  } else {
+    return false;
   }
 }
 
@@ -62,17 +56,16 @@ void calcularPID() {
 
   // Curvas de 1 sensor
   if (esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
-    erro_proporcional = -1.5;
+    erro_proporcional = -1.8;
   }
 
   if (!esquerdoNaLinha && !centralNaLinha && direitoNaLinha) {
-    erro_proporcional = 1.5;
+    erro_proporcional = 1.8;
   }
 
   if (!esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
-    /* Ao não detectar mais a linha, continuar fazendo o que estava fazendo antes
-    com dois terços da intensidade */
-    erro_proporcional = erro_anterior/3*2;
+    // Ao não detectar mais a linha, continuar fazendo o que estava fazendo antes
+    erro_proporcional = erro_anterior;
   }
 
   erro_integral = erro_integral + erro_proporcional;
@@ -80,18 +73,19 @@ void calcularPID() {
   erro_anterior = erro_proporcional;
 
   PID = Kp * erro_proporcional + Ki * erro_integral + Kd * erro_derivado;
+//  PID = constrain(PID, -30,30);
   
   Serial.println("PID = " + String(PID));
 }
 
 void aplicarPID() {
   // Devido aos sentidos de rotação, somar PID ao motor esquerdo e subtrair do motor direito
-
+  
   float novo_pwm_a = pwm_a - PID;
-  novo_pwm_a = constrain(novo_pwm_a, 0, 75);
+  novo_pwm_a = constrain(novo_pwm_a, 10, 35);
 
   float novo_pwm_b = pwm_b + PID;
-  novo_pwm_b = constrain(novo_pwm_b, 0, 75);
+  novo_pwm_b = constrain(novo_pwm_b, 10, 35);
  
   aceleracaoDiferencial(novo_pwm_a, novo_pwm_b);
 
