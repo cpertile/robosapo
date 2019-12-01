@@ -19,9 +19,9 @@ float pwm_a = 15;
 float pwm_b = 19;
 
 // Constantes PID
-float Kp = 6;
-float Ki = 2;
-float Kd = 4;
+float Kp = 4;
+float Ki = 1;
+float Kd = 3;
 float PID = 0;
 float erro_anterior = 0;
 float erro_integral = 0;

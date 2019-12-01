@@ -56,11 +56,11 @@ void calcularPID() {
 
   // Curvas de 1 sensor
   if (esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
-    erro_proporcional = -1.8;
+    erro_proporcional = -1.5;
   }
 
   if (!esquerdoNaLinha && !centralNaLinha && direitoNaLinha) {
-    erro_proporcional = 1.8;
+    erro_proporcional = 1.5;
   }
 
   if (!esquerdoNaLinha && !centralNaLinha && !direitoNaLinha) {
@@ -82,10 +82,10 @@ void aplicarPID() {
   // Devido aos sentidos de rotação, somar PID ao motor esquerdo e subtrair do motor direito
   
   float novo_pwm_a = pwm_a - PID;
-  novo_pwm_a = constrain(novo_pwm_a, 10, 35);
+  novo_pwm_a = constrain(novo_pwm_a, 5, 45);
 
   float novo_pwm_b = pwm_b + PID;
-  novo_pwm_b = constrain(novo_pwm_b, 10, 35);
+  novo_pwm_b = constrain(novo_pwm_b, 5, 45);
  
   aceleracaoDiferencial(novo_pwm_a, novo_pwm_b);
 
