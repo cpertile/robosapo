@@ -12,19 +12,6 @@
 #define PINO_MOTOR_B1 10
 #define PINO_MOTOR_B2 9
 
-// Detector de Obstáculos
-#define PINO_TRIGGER 40
-#define PINO_ECHO 41
-bool obstaculoDetectado = false;
-
-// Sensores de Linha
-#define PINO_SENSOR_CENTRAL 3
-#define PINO_SENSOR_ESQUERDO 2
-#define PINO_SENSOR_DIREITO 4
-bool esquerdoNaLinha = true;
-bool centralNaLinha = true;
-bool direitoNaLinha = true;
-
 // Parâmetros gerais de PWM
 #define PWM_MINIMO 0
 #define PWM_MAXIMO 255
@@ -38,6 +25,24 @@ float Kd = 4;
 float PID = 0;
 float erro_anterior = 0;
 float erro_integral = 0;
+
+// Detector de Obstáculos
+#define PINO_TRIGGER 40
+#define PINO_ECHO 41
+bool obstaculoDetectado = false;
+
+// Sensores de Linha
+#define PINO_SENSOR_CENTRAL 3
+#define PINO_SENSOR_ESQUERDO 2
+#define PINO_SENSOR_DIREITO 4
+bool esquerdoNaLinha = true;
+bool centralNaLinha = true;
+bool direitoNaLinha = true;
+
+// Fotoresistores
+#define PINO_FOTORESISTOR_CENTRAL A0
+#define PINO_FOTORESISTOR_ESQUERDO A1
+#define PINO_FOTORESISTOR_DIREITO A2
 
 // Variáveis de controle geral
 bool andando = false;
