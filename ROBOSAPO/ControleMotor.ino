@@ -1,10 +1,24 @@
 /*
  * S.A.P.O. - Seguidor Autônomo de Percurso Orientado
  */
+// Motor A
+#define PINO_PWM_MOTOR_A 13
+#define PINO_MOTOR_A1 12
+#define PINO_MOTOR_A2 11
+
+// Motor B
+#define PINO_PWM_MOTOR_B 8
+#define PINO_MOTOR_B1 10
+#define PINO_MOTOR_B2 9
+
+// Parâmetros gerais de PWM
+#define PWM_MINIMO 0
+#define PWM_MAXIMO 255
+float pwm_a = 15;
+float pwm_b = 19;
 
 void inicializarMotores() {
   setarMotoresEmFrente();
-  ;
 }
 
 void setarMotoresEmFrente() {

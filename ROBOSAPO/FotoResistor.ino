@@ -14,8 +14,8 @@ void lerFotoResistores() {
 
 bool verificarCuboCarregado() {
   lerFotoResistores();
-
-  if (fotoResistorCentral > 100 || fotoResistorEsquerdo > 100 || fotoResistorDireito > 100) {
+//  Serial.println("LDR: " + String(fotoResistorEsquerdo) + " " + String(fotoResistorCentral) + " " + String(fotoResistorDireito));
+  if (fotoResistorCentral > 400 || fotoResistorEsquerdo > 400 || fotoResistorDireito > 400) {
     return true;
   } else {
     return false;
