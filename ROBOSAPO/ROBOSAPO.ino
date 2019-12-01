@@ -57,8 +57,6 @@ void setup() {
 }
 
 void loop() {
-  lerFotoResistores();
-  
   // Verificar presença ou não de obstáculo
   obstaculoDetectado = lerDetectorObstaculo();
 
@@ -67,13 +65,14 @@ void loop() {
     realizarParadaRapida();
   } else {
     Serial.println("Caminho Livre");
+
     // Fazer leitura da linha
     lerSensoresLinha();
     detectadoFimDeLinha = verificarFimDeLinha();
     if (detectadoFimDeLinha) {
       Serial.println("Detectado fim de linha");
       realizarParadaRapida();
-    } else {
+    } else if (cuboCarregado()) {
       Serial.println("Acelerando e calculando PID");
       setarMotoresEmFrente();
       calcularPID();
