@@ -69,9 +69,6 @@ void desligarMotores() {
 
   digitalWrite(PINO_MOTOR_B1, LOW);
   digitalWrite(PINO_MOTOR_B2, LOW);
-
-  // Log
-  // Serial.println("Desligando motores...");
 }
 
 void aceleracaoConjunta(int porcentagem_pwm) {
@@ -86,10 +83,6 @@ void aceleracaoConjunta(int porcentagem_pwm) {
   int pwm_convertido = map(porcentagem_pwm, 0, 100, PWM_MINIMO, PWM_MAXIMO);
   analogWrite(PINO_PWM_MOTOR_A, pwm_convertido);
   analogWrite(PINO_PWM_MOTOR_B, pwm_convertido);
-
-  // Log
-  // String mensagem = "Acelerando motores a " + String(pwm_convertido) + " PWM";
-  // Serial.println(mensagem);
 }
 
 void aceleracaoConjuntaGradual(int tempo) {
@@ -124,22 +117,15 @@ void aceleracaoDiferencial(int pwm_a, int pwm_b) {
   int pwm_b_convertido = map(pwm_b, 0, 100, PWM_MINIMO, PWM_MAXIMO);
   analogWrite(PINO_PWM_MOTOR_A, pwm_a_convertido);
   analogWrite(PINO_PWM_MOTOR_B, pwm_b_convertido);
-
-  // Log
-  // Serial.println("Acelerando em frente");  
-  // String mensagemA = "Motor A: " + String(pwm_a_convertido) + " PWM";
-  // String mensagemB = "Motor B: " + String(pwm_b_convertido) + " PWM";
-  // Serial.println(mensagemA);
-  // Serial.println(mensagemB);
 }
 
 void realizarParadaRapida() {
+  // Inverte o sentido de rotação dos motores, acelera para trás por um instante para diminuir a velocidade, 
+  // desliga a aceleração dos motores e retorna para o sentido normal de rotação
   setarMotoresParaTras();
-  if(andando) {
-    aceleracaoConjunta(100);
-  }
+  aceleracaoConjunta(100);
   pararMotores();
-  andando = false;
+  setarMotoresEmFrente();
 }
 
 bool pwmValido(int porcentagem_pwm) {

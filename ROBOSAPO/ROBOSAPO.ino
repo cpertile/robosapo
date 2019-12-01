@@ -45,7 +45,6 @@ bool direitoNaLinha = true;
 #define PINO_FOTORESISTOR_DIREITO A2
 
 // Variáveis de controle geral
-bool andando = false;
 bool cuboCarregado = false;
 bool detectadoFimDeLinha = false;
 
@@ -63,51 +62,69 @@ void setup() {
 }
 
 void loop() {
-
   switch(estagioAtual) {
-    case ESTAGIO_INICIAL:
-    Serial.println("Estagio inicial");
-    break;
+    // Aguardar carregamento do cubo
+    case ESTAGIO_INICIAL: 
+      cuboCarregado = verificarCuboCarregado();
+
+      if (cuboCarregado) {
+        // Ativar eletroímã
+        avancarEstagio();
+      }
+      break;
 
     case ESTAGIO_TRANSPORTE:
-    Serial.println("Estagio Transporte");
-    break;
+      // Verificar presença ou não de obstáculo
+      obstaculoDetectado = lerDetectorObstaculo();
+
+      if (obstaculoDetectado) {
+        realizarParadaRapida();
+        break;
+      }
+
+      // Fazer leitura da linha
+      lerSensoresLinha();
+      detectadoFimDeLinha = verificarFimDeLinha();
+      // Se detectado o fim da linha, parar o robô e aguardar descarregamento
+      if (detectadoFimDeLinha) {
+        realizarParadaRapida();
+        // Desligar eletroímã
+        while (cuboCarregado) {
+          cuboCarregado = verificarCuboCarregado();
+        }
+        avancarEstagio();
+        break;
+      }
+
+      // Caso não tenha detectado obstáculo e nem o fim da linha, deve seguir o percurso
+      calcularPID();
+      aplicarPID();
+      break;
 
     case ESTAGIO_RETORNO:
-    Serial.println("Estagio retorno");
-    break; 
-    
-    default: ESTAGIO_INICIAL;
-  }
+      // Verificar presença ou não de obstáculo
+      obstaculoDetectado = lerDetectorObstaculo();
 
-  espera(2);
-  proximoEstagio();
+      if (obstaculoDetectado) {
+        realizarParadaRapida();
+        break;
+      }
 
-  // // Verificar presença ou não de obstáculo
-  // obstaculoDetectado = lerDetectorObstaculo();
+      // Fazer leitura da linha
+      lerSensoresLinha();
+      detectadoFimDeLinha = verificarFimDeLinha();
+      // Se detectado o fim da linha, parar o robô
+      if (detectadoFimDeLinha) {
+        realizarParadaRapida();
+        avancarEstagio();
+        break;
+      }
 
-  // // Leitura carregamento cubo
-  // cuboCarregado = verificarCuboCarregado();
-  
-  // if (obstaculoDetectado) {
-  //   // Serial.println("Obstaculo detectado");
-  //   realizarParadaRapida();
-  // } else {
-  //   // Serial.println("Caminho Livre");
-  //   // Fazer leitura da linha
-  //   lerSensoresLinha();
-  //   detectadoFimDeLinha = verificarFimDeLinha();
-  //   if (detectadoFimDeLinha) {
-  //     // Serial.println("Detectado fim de linha");
-  //     realizarParadaRapida();
-  //   } else if (cuboCarregado) {
-  //     // Serial.println("Acelerando e calculando PID");
-  //     setarMotoresEmFrente();
-  //     calcularPID();
-  //     aplicarPID();
-  //     andando = true;
-  //   }
-  // }
+      // Caso não tenha detectado obstáculo e nem o fim da linha, deve seguir o percurso
+      calcularPID();
+      aplicarPID();
+      break;
+  }  
 }
 
 void espera(float segundos) {

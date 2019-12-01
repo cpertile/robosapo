@@ -1,4 +1,4 @@
-void proximoEstagio() {
+void avancarEstagio() {
 	switch(estagioAtual) {
     case ESTAGIO_INICIAL:
     	estagioAtual = ESTAGIO_TRANSPORTE;
