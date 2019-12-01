@@ -49,39 +49,65 @@ bool andando = false;
 bool cuboCarregado = false;
 bool detectadoFimDeLinha = false;
 
+// Controle de Estágios
+#define ESTAGIO_INICIAL 0
+#define ESTAGIO_TRANSPORTE 1
+#define ESTAGIO_RETORNO 2
+int estagioAtual = ESTAGIO_INICIAL;
+
 void setup() {
-  // Serial.begin(9600);
+  Serial.begin(9600);
   inicializarSeguidores();
   inicializarMotores();
   espera(1);
 }
 
 void loop() {
-  // Verificar presença ou não de obstáculo
-  obstaculoDetectado = lerDetectorObstaculo();
 
-  // Leitura carregamento cubo
-  cuboCarregado = verificarCuboCarregado();
-  
-  if (obstaculoDetectado) {
-    // Serial.println("Obstaculo detectado");
-    realizarParadaRapida();
-  } else {
-    // Serial.println("Caminho Livre");
-    // Fazer leitura da linha
-    lerSensoresLinha();
-    detectadoFimDeLinha = verificarFimDeLinha();
-    if (detectadoFimDeLinha) {
-      // Serial.println("Detectado fim de linha");
-      realizarParadaRapida();
-    } else if (cuboCarregado) {
-      // Serial.println("Acelerando e calculando PID");
-      setarMotoresEmFrente();
-      calcularPID();
-      aplicarPID();
-      andando = true;
-    }
+  switch(estagioAtual) {
+    case ESTAGIO_INICIAL:
+    Serial.println("Estagio inicial");
+    break;
+
+    case ESTAGIO_TRANSPORTE:
+    Serial.println("Estagio Transporte");
+    break;
+
+    case ESTAGIO_RETORNO:
+    Serial.println("Estagio retorno");
+    break; 
+    
+    default: ESTAGIO_INICIAL;
   }
+
+  espera(2);
+  proximoEstagio();
+
+  // // Verificar presença ou não de obstáculo
+  // obstaculoDetectado = lerDetectorObstaculo();
+
+  // // Leitura carregamento cubo
+  // cuboCarregado = verificarCuboCarregado();
+  
+  // if (obstaculoDetectado) {
+  //   // Serial.println("Obstaculo detectado");
+  //   realizarParadaRapida();
+  // } else {
+  //   // Serial.println("Caminho Livre");
+  //   // Fazer leitura da linha
+  //   lerSensoresLinha();
+  //   detectadoFimDeLinha = verificarFimDeLinha();
+  //   if (detectadoFimDeLinha) {
+  //     // Serial.println("Detectado fim de linha");
+  //     realizarParadaRapida();
+  //   } else if (cuboCarregado) {
+  //     // Serial.println("Acelerando e calculando PID");
+  //     setarMotoresEmFrente();
+  //     calcularPID();
+  //     aplicarPID();
+  //     andando = true;
+  //   }
+  // }
 }
 
 void espera(float segundos) {
