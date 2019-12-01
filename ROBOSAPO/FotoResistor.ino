@@ -24,11 +24,9 @@ void calibrarFotoResistores() {
 	Serial.println("limiteOperacional: " + String(limiteOperacional));
 }
 
-
-
 bool verificarCuboCarregado() {
   lerFotoResistores();
-//  Serial.println("LDR: " + String(fotoResistorEsquerdo) + " " + String(fotoResistorCentral) + " " + String(fotoResistorDireito));
+  Serial.println("LDR: " + String(fotoResistorEsquerdo) + " " + String(fotoResistorCentral) + " " + String(fotoResistorDireito));
   if (fotoResistorCentral > limiteOperacional || fotoResistorEsquerdo > limiteOperacional || fotoResistorDireito > limiteOperacional) {
     return true;
   } else {
