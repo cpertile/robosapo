@@ -34,7 +34,8 @@ void setup() {
   Serial.begin(9600);
   inicializarSeguidores();
   inicializarMotores();
-  espera(1);
+  calibrarFotoResistores();
+  espera(3);
 }
 
 void loop() {
