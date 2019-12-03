@@ -48,7 +48,6 @@ void calcularPID() {
   erro_anterior = erro_proporcional;
 
   PID = Kp * erro_proporcional + Ki * erro_integral + Kd * erro_derivado;
-//  PID = constrain(PID, -30,30);
   
    Serial.println("PID = " + String(PID));
 }
@@ -58,11 +57,11 @@ void aplicarPID() {
   float novo_pwm_a, novo_pwm_b;
   if (PID < 0) { // Curva à esquerda, subtrair do motor B
     novo_pwm_b = pwm_b + PID;
-    novo_pwm_b = constrain(novo_pwm_b, 5, 20);
+    novo_pwm_b = constrain(novo_pwm_b, 10, 20);
     novo_pwm_a = pwm_a;
   } else if (PID > 0) { // Curva à direita, subtrair do motor A
     novo_pwm_a = pwm_a - PID;
-    novo_pwm_a = constrain(novo_pwm_a, 5, 20);
+    novo_pwm_a = constrain(novo_pwm_a, 10, 20);
     novo_pwm_b = pwm_b;
   }
  
